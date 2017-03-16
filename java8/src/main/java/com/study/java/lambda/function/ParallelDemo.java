@@ -1,6 +1,5 @@
 package com.study.java.lambda.function;
 
-import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class ParallelDemo {
         System.out.println(list.parallelStream().mapToInt(i -> i).sum());
     }
 
-   private void testTime(int number) {
+    private void testTime(int number) {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < number; i++) {
             list.add(i);
