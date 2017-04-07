@@ -2,10 +2,12 @@ package com.study.java.lambda.list;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.summarizingInt;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Objects;
 import java.util.TreeSet;
@@ -95,6 +97,11 @@ public class ListDemo {
 
     @Test
     public void test5() {
-
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 1, 2, 3);
+        // 统计
+        IntSummaryStatistics summary = list.stream().collect(summarizingInt(Integer::intValue));
+        String str = String.format("average:%f,count:%d,max:%d,min:%d,sum:%d", summary.getAverage(),
+            summary.getCount(), summary.getMax(), summary.getMin(), summary.getSum());
+        System.out.println(str);
     }
 }

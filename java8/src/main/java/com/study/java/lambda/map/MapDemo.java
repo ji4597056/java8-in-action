@@ -1,5 +1,6 @@
 package com.study.java.lambda.map;
 
+import static java.util.stream.Collectors.toSet;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
@@ -7,6 +8,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.Assert;
@@ -77,5 +80,18 @@ public class MapDemo {
         // 可用于缓存处理,如果没有该key,处理后存入keyd
         map.computeIfAbsent("key2", s -> "value".concat(s.substring(s.length() - 1) + "_"));
         map.forEach((key, value) -> System.out.println("key:" + key + ",value:" + value));
+    }
+
+    private static ConcurrentHashMap<String, Set<String>> addresses = new ConcurrentHashMap<>();
+
+    @Test
+    public void test4() {
+        addresses.put("null", Stream.of("null").collect(toSet()));
+        Set<String> serviceAddresseses = addresses.get("null");
+        addresses.put("notNull",
+            serviceAddresseses == null ? Stream.of("notNull").collect(toSet())
+                : Stream.of(serviceAddresseses.stream(), Stream.of("notNull")
+                ).flatMap(serviceAddresses -> serviceAddresses).collect(toSet()));
+        addresses.forEach((s, strings) -> System.out.println(s + "," + strings));
     }
 }

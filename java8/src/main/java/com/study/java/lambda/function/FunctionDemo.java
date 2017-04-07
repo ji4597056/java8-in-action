@@ -21,6 +21,7 @@ public class FunctionDemo {
     public void test() {
         // 高阶函数是指接受另外一个函数作为参数,或返回一个函数的函数.
         // 使用Lambda表达式获取值而不是变量.
+        // 当lambda表达式使用this指针时,会调用引用创建该lambda表达式的类指针
     }
 
     @Test

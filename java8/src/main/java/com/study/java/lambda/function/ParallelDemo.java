@@ -2,9 +2,12 @@ package com.study.java.lambda.function;
 
 import static java.util.stream.Collectors.toList;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -55,5 +58,23 @@ public class ParallelDemo {
             .collect(toList());
         System.out.println(
             "串行,result:" + newList.size() + " ,time:" + (System.currentTimeMillis() - start));
+    }
+
+
+    @Test
+    public void test3() {
+        String[] strs = IntStream.range(0, 100).mapToObj(num -> num + "").toArray(String[]::new);
+        Stream.of(strs).forEach(System.out::println);
+        System.out.println("=============");
+        Stream.of(strs).parallel().forEach(System.out::println);
+    }
+
+    @Test
+    public void test4() {
+        Stream.iterate(BigInteger.ZERO, bigInteger -> bigInteger.add(BigInteger.ONE)).unordered()
+            .limit(3).forEach(System.out::println);
+        System.out.println("=============");
+        Stream.iterate(BigInteger.ZERO, bigInteger -> bigInteger.add(BigInteger.ONE)).parallel()
+            .unordered().limit(3).forEach(System.out::println);
     }
 }
