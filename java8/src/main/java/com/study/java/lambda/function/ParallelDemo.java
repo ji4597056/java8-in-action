@@ -77,4 +77,9 @@ public class ParallelDemo {
         Stream.iterate(BigInteger.ZERO, bigInteger -> bigInteger.add(BigInteger.ONE)).parallel()
             .unordered().limit(3).forEach(System.out::println);
     }
+
+    @Test
+    public void test5() {
+        Stream.generate(Math::random).peek(System.out::println).count();
+    }
 }

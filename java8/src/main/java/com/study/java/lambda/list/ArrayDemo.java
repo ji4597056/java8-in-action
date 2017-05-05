@@ -3,7 +3,9 @@ package com.study.java.lambda.list;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -82,6 +84,24 @@ public class ArrayDemo {
             })
             .forEach(s -> System.out.println("forEach:" + s));
 
+    }
+
+    @Test
+    public void test3() {
+        int[] nums = {1, 2, 3, 4, 5};
+        Integer[] integers = {1, 2, 3, 4, 5};
+        Stream.of(nums).forEach(System.out::println);
+        Stream.of(integers).forEach(System.out::println);
+        IntStream.of(nums).forEach(System.out::println);
+        Arrays.stream(nums).forEach(System.out::println);
+        Stream.generate(() -> "A").forEach(System.out::println);
+    }
+
+    @Test
+    public void test4() {
+        int[] nums = {1, 2, 3, 8, 5, 6};
+        System.out.println(
+            IntStream.of(nums).reduce((left, right) -> left < right ? right : left).getAsInt());
     }
 
     // 计算滑动窗口平均数
