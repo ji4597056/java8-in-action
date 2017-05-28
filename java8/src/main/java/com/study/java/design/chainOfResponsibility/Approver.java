@@ -21,5 +21,5 @@ public abstract class Approver {
         this.successor = successor;
     }
 
-    abstract public void handler(Integer day);
+    public abstract void handler(Integer day);
 }
