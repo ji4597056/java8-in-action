@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:flowable="http://flowable.org/bpmn"
+    typeLanguage="http://www.w3.org/2001/XMLSchema"
+    expressionLanguage="http://www.w3.org/1999/XPath"
+    targetNamespace="http://www.flowable.org/processdef">
+
+    <process id="developRequest" name="Develop Request" isExecutable="true"
+        flowable:candidateStarterGroups="developer">
+
+        <startEvent id="startEvent"/>
+        <sequenceFlow sourceRef="startEvent" targetRef="createTestTask"/>
+        <!-- 开发人员提交任务给测试人员 -->
+        <userTask id="createTestTask" name="create test task" flowable:candidateGroups="developer"/>
+        <sequenceFlow sourceRef="createTestTask" targetRef="doSendTestDecision"/>
+        <exclusiveGateway id="doSendTestDecision"/>
+        <!-- 开发人员确认提交测试 -->
+        <sequenceFlow sourceRef="doSendTestDecision" targetRef="doTestTask">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+                    ${developer_send}
+                ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <!-- 开发人员取消测试 -->
+        <sequenceFlow sourceRef="doSendTestDecision" targetRef="endEvent">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+                    ${!developer_send}
+                ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <!-- 测试人员处理任务 -->
+        <userTask id="doTestTask" name="do test task"
+            flowable:candidateGroups="tester"/>
+        <sequenceFlow sourceRef="doTestTask" targetRef="doTestDecision"/>
+        <exclusiveGateway id="doTestDecision"/>
+        <!-- 测试人员同意转生产 -->
+        <sequenceFlow sourceRef="doTestDecision" targetRef="doProductionTask">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+                    ${tester_approved && !to_preproducer}
+                ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <!-- 测试人员同意转预生产-->
+        <sequenceFlow sourceRef="doTestDecision" targetRef="doPreProductionTask">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+                    ${tester_approved && to_preproducer}
+                ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <!-- 测试人员不同意 -->
+        <sequenceFlow sourceRef="doTestDecision" targetRef="reCreateTestTask">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+                    ${!tester_approved}
+                ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <!-- 回退给发开人员重新处理 -->
+        <userTask id="reCreateTestTask" name="reCreate test task"
+            flowable:assignee="${developer_id}"/>
+        <sequenceFlow sourceRef="reCreateTestTask" targetRef="doSendTestDecision"/>
+        <!-- 预生产人员处理任务 -->
+        <userTask id="doPreProductionTask" name="do pre-production task"
+            flowable:candidateGroups="pre-producer"/>
+        <sequenceFlow sourceRef="doPreProductionTask" targetRef="doPreProductionDecision"/>
+        <exclusiveGateway id="doPreProductionDecision"/>
+        <!-- 预生产同意转生产 -->
+        <sequenceFlow sourceRef="doPreProductionDecision" targetRef="doProductionTask">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+                    ${preproducer_approved}
+                ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <!-- 预生产不同意 -->
+        <sequenceFlow sourceRef="doPreProductionDecision" targetRef="reDoTestTask">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+                    ${!perproducer_approved}
+                ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <!-- 回退给测试人员重新处理 -->
+        <userTask id="reDoTestTask" name="reDo test task" flowable:assignee="${tester_id}"/>
+        <sequenceFlow sourceRef="reDoTestTask" targetRef="doTestDecision"/>
+        <!-- 生产人员处理任务 -->
+        <userTask id="doProductionTask" name="do production task"
+            flowable:candidateGroups="producer"/>
+        <sequenceFlow sourceRef="doProductionTask" targetRef="doProductionDecision"/>
+        <exclusiveGateway id="doProductionDecision"/>
+        <!-- 生产同意结束任务 -->
+        <sequenceFlow sourceRef="doProductionDecision" targetRef="endEvent">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+                    ${producer_approved}
+                ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <!-- 生产不同意转测试 -->
+        <sequenceFlow sourceRef="doProductionDecision" targetRef="reDoTestTask">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+                    ${!producer_approved && !to_preproducer}
+                ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <!-- 生产不同意转预生产 -->
+        <sequenceFlow sourceRef="doProductionDecision" targetRef="reDoPreProductionTask">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[
+                    ${!producer_approved && to_preproducer}
+                ]]>
+            </conditionExpression>
+        </sequenceFlow>
+        <!-- 回退给发开人员重新处理 -->
+        <userTask id="reDoPreProductionTask" name="reDo pre-production task"
+            flowable:assignee="${preproduction_id}"/>
+        <sequenceFlow sourceRef="reDoPreProductionTask" targetRef="doPreProductionDecision"/>
+        <endEvent id="endEvent"/>
+    </process>
+
+</definitions>

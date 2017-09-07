@@ -44,7 +44,7 @@ public class CompareDemo {
     public void test2() {
         // 排序
         Arrays.asList("1", "333", "666666", "333", "2").stream()
-            .sorted(Comparator.comparing(String::length).reversed()).forEach(System.out::println);
+            .sorted(Comparator.comparing(String::length).reversed().thenComparing(String::hashCode)).forEach(System.out::println);
         Arrays.asList("1", "333", "666666", "333", "2").stream()
             .sorted(Comparator.reverseOrder()).forEach(System.out::println);
         // 错误

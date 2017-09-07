@@ -14,15 +14,15 @@ import org.junit.Test;
  */
 public class ConcurrentDemo {
 
-    public static AtomicLong number = new AtomicLong(1L);
+    private static AtomicLong number = new AtomicLong(1L);
 
-    public static LongAdder adder = new LongAdder();
+    private static LongAdder adder = new LongAdder();
 
-    public static LongAccumulator accumulator = new LongAccumulator(Long::sum, 1);
+    private static LongAccumulator accumulator = new LongAccumulator(Long::sum, 1);
 
     public static ConcurrentHashMap<String, Long> map = new ConcurrentHashMap<>();
 
-    public static ConcurrentHashMap<String, LongAdder> adderMap = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, LongAdder> adderMap = new ConcurrentHashMap<>();
 
     @Test
     public void test() {
@@ -72,5 +72,12 @@ public class ConcurrentDemo {
     public void test4() {
         IntStream.range(1, 100).mapToObj(Integer::valueOf)
             .collect(Collectors.toMap(String::valueOf, Integer::valueOf));
+    }
+
+    @Test
+    public void test5() throws InterruptedException {
+        Thread thread = new Thread(() -> System.out.println("test!"));
+        thread.start();
+        thread.join(1000L);
     }
 }

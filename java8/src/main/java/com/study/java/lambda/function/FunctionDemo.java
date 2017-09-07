@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,6 +36,12 @@ public class FunctionDemo {
         // peek查看流中的值(可用作记录日志)
         List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
         list.stream().peek(System.out::println).collect(toList());
+    }
+
+    @Test
+    public void test2() {
+        Long num = 20L;
+        System.out.println(LongStream.rangeClosed(1, num).reduce((a, b) -> a * b));
     }
 
     // 计算流中所有数之和

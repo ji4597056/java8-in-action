@@ -3,6 +3,7 @@ package com.study.java.lambda.function;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Test;
@@ -55,5 +56,75 @@ public class OptionalDemo {
         System.out.println(values.stream().mapToInt(Integer::intValue).reduce(0, Integer::sum));
         Integer[] integers = values.stream().toArray(Integer[]::new);
         System.out.println(integers.length);
+    }
+
+    @Test
+    public void test4() {
+        Insurance insurance = new Insurance();
+        insurance.setName("hah");
+        Car car = new Car();
+//        car.setInsurance(insurance);
+        Person person = new Person();
+        person.setCar(car);
+
+        String insuranceName = Optional.ofNullable(person).map(Person::getCar)
+            .map(Car::getInsurance).map(Insurance::getName).orElseGet(() -> String.valueOf("null"));
+        System.out.println(insuranceName);
+    }
+
+    public Optional<Insurance> nullSafeFindCheapestInsurance(Optional<Person> person,
+        Optional<Car> car) {
+        return person.flatMap(p -> car.map(c -> findCheapestInsurance(p, c)));
+    }
+
+    public Insurance findCheapestInsurance(Person person, Car car) {
+        Objects.requireNonNull(person);
+        Objects.requireNonNull(car);
+        Insurance insurance = new Insurance();
+        insurance.setName("cheapest");
+        return insurance;
+    }
+
+    private static class Person {
+
+        private Car car;
+
+        public Car getCar() {
+            return car;
+        }
+
+        public Optional<Car> getCarAsOptional() {
+            return Optional.ofNullable(car);
+        }
+
+        public void setCar(Car car) {
+            this.car = car;
+        }
+    }
+
+    private static class Car {
+
+        private Insurance insurance;
+
+        public Insurance getInsurance() {
+            return insurance;
+        }
+
+        public void setInsurance(Insurance insurance) {
+            this.insurance = insurance;
+        }
+    }
+
+    private static class Insurance {
+
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }

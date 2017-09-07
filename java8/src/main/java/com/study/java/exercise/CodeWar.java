@@ -2,11 +2,13 @@ package com.study.java.exercise;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
 import java.math.BigInteger;
+import java.net.PortUnreachableException;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -253,6 +255,240 @@ public class CodeWar {
         assertEquals(o, sumConsecutives(i));
     }
 
+    @Test
+    public void testEncode() {
+        assertEquals(")()())()(()()(",
+            encode("Prespecialized"));
+        assertEquals("))))())))", encode("   ()(   "));
+    }
+
+    /**
+     * The goal of this exercise is to convert a string to a new string where each character in the
+     * new string is '(' if that character appears only once in the original string, or ')' if that
+     * character appears more than once in the original string. Ignore capitalization when
+     * determining if a character is a duplicate.
+     */
+    private String encode(String word) {
+        return word.toLowerCase().chars().mapToObj(ch -> String.valueOf((char) ch))
+            .map(
+                s -> word.toLowerCase().indexOf(s) == word.toLowerCase().lastIndexOf(s) ? "(" : ")")
+            .collect(Collectors.joining());
+    }
+
+    @Test
+    public void BasicTests() {
+        assertEquals("Range: 01|01|18 Average: 01|38|05 Median: 01|32|34",
+            stat("01|15|59, 1|47|16, 01|17|20, 1|32|34, 2|17|17"));
+        assertEquals("Range: 00|31|17 Average: 02|26|18 Median: 02|22|00",
+            stat("02|15|59, 2|47|16, 02|17|20, 2|32|34, 2|17|17, 2|22|00, 2|31|41"));
+    }
+
+    /**
+     * @author Jeffrey
+     * @since 2017/6/8 18:18
+     */
+    public static String stat(String strg) {
+        int[] array = java.util.Arrays.stream(strg.split(", ")).mapToInt(data -> {
+            String[] datas = data.split("\\|");
+            return Integer.parseInt(datas[0]) * 3600 + Integer.parseInt(datas[1]) * 60 + Integer
+                .parseInt(datas[2]);
+        }).sorted().toArray();
+        int max = array[array.length - 1];
+        int min = array[0];
+        int range = max - min;
+        int length = array.length;
+        int average = new Double(java.util.Arrays.stream(array).average().getAsDouble()).intValue();
+        int median =
+            length % 2 == 0 ? (array[length / 2 - 1] + array[length / 2]) / 2 : array[length / 2];
+        return "Range: " + getStr(range) + " Average: " + getStr(average) + " Median: " + getStr(
+            median);
+    }
+
+    private static String getStr(int num) {
+        int hh = num / 3600;
+        int mm = num % 3600 / 60;
+        int ss = num % 3600 % 60;
+        return (hh < 10 ? "0" + hh : hh) + "|" + (mm < 10 ? "0" + mm : mm) + "|" + (ss < 10 ? "0"
+            + ss : ss);
+    }
+
+    @Test
+    public void testValid() {
+        assertEquals(true, isValid1("()"));
+    }
+
+    @Test
+    public void testInvalid() {
+        assertEquals(false, isValid1("[(])"));
+    }
+
+    /**
+     * Write a function called validBraces that takes a string of braces, and determines if the
+     * order of the braces is valid. validBraces should return true if the string is valid, and
+     * false if it's invalid.
+     */
+    public boolean isValid(String braces) {
+        java.util.Map<Character, Character> map = new java.util.HashMap<Character, Character>() {{
+            put('(', ')');
+            put('[', ']');
+            put('{', '}');
+        }};
+        java.util.Stack<Character> stack = new java.util.Stack();
+        for (int index = 0; index < braces.length(); index++) {
+            char ch = braces.charAt(index);
+            if (map.containsKey(ch)) {
+                stack.push(ch);
+            } else if (map.containsValue(ch)) {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                if (!java.util.Objects.equals(map.get(stack.pop()), ch)) {
+                    return false;
+                }
+            } else {
+                throw new IllegalArgumentException("invalid string!");
+            }
+        }
+        if (stack.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isValid1(String braces) {
+        System.out.println(String.format("brances is %s", braces));
+        int len = braces.length();
+        for (int i = 0; i < len / 2; i++) {
+            braces = braces.replace("()", "").replace("[]", "").replace("{}", "");
+        }
+        return braces.isEmpty();
+    }
+
+    @Test
+    public void testSomeUnderscoreLowerStart() {
+        String input = "the_Stealth_Warrior";
+        System.out.println("input: " + input);
+        assertEquals("theStealthWarrior", toCamelCase(input));
+    }
+
+    @Test
+    public void testSomeDashLowerStart() {
+        String input = "the-[r]tealth-Warrior";
+        System.out.println("input: " + input);
+        assertEquals("the[r]tealthWarrior", toCamelCase(input));
+    }
+
+    static String toCamelCase(String s) {
+        Matcher matcher = Pattern.compile("[-|_](\\w)").matcher(s);
+        StringBuffer buffer = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(buffer, matcher.group(1).toUpperCase());
+        }
+        return matcher.appendTail(buffer).toString();
+    }
+
+    @Test
+    public void test_fractions() throws Exception {
+        long[][] lst;
+        lst = new long[][]{{1, 2}, {1, 3}, {1, 4}};
+        assertEquals("(6,12)(4,12)(3,12)", convertFrac(lst));
+    }
+
+    public static String convertFrac(long[][] lst) {
+        return null;
+    }
+
+    private static void testing(boolean actual, boolean expected) {
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testScramble() {
+        System.out.println("Fixed Tests scramble");
+        Long start = System.nanoTime();
+        testing(scramble("rkqodlw", "world"), true);
+        testing(scramble("cedewaraaossoqqyt", "codewars"), true);
+        testing(scramble("katas", "steak"), false);
+        testing(scramble("scriptjavx", "javascript"), false);
+        testing(scramble("scriptingjava", "javascript"), true);
+        testing(scramble("scriptsjava", "javascripts"), true);
+        testing(scramble("javscripts", "javascript"), false);
+        testing(scramble("aabbcamaomsccdd", "commas"), true);
+        testing(scramble("commas", "commas"), true);
+        testing(scramble("sammoc", "commas"), true);
+        System.out.println(String.format("cost time: %s", System.nanoTime() - start));
+    }
+
+    /**
+     * Write function scramble(str1,str2) that returns true if a portion of str1 characters can be
+     * rearranged to match str2, otherwise returns false.
+     */
+    public static boolean scramble(String str1, String str2) {
+        if (str2.length() > str1.length()) {
+            return false;
+        }
+        for (String sub : str2.split("")) {
+            if (!str1.contains(sub)) {
+                return false;
+            }
+            str1 = str1.replaceFirst(sub, "");
+        }
+        return true;
+    }
+
+    public static boolean scramble1(String str1, String str2) {
+        StringBuilder str = new StringBuilder(str1);
+        for (int i = 0; i < str2.length(); i++) {
+            if (str.indexOf("" + str2.charAt(i)) == -1) {
+                return false;
+            } else {
+                str.setCharAt(str.indexOf("" + str2.charAt(i)), ' ');
+            }
+        }
+        return true;
+    }
+
+    @Test
+    public void testLongestSlideDown() {
+        int[][] test = new int[][]{{75},
+            {95, 64},
+            {17, 47, 82},
+            {18, 35, 87, 10},
+            {20, 4, 82, 47, 65},
+            {19, 1, 23, 75, 3, 34},
+            {88, 2, 77, 73, 7, 63, 67},
+            {99, 65, 4, 28, 6, 16, 70, 92},
+            {41, 41, 26, 56, 83, 40, 80, 70, 33},
+            {41, 48, 72, 33, 47, 32, 37, 16, 94, 29},
+            {53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14},
+            {70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57},
+            {91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48},
+            {63, 66, 4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31},
+            {4, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4, 23},
+        };
+        assertEquals(1074, longestSlideDown(test));
+    }
+
+    /**
+     *  /3/
+     * \7\ 4
+     * 2 \4\ 6
+     * 8 5 \9\ 3
+     */
+    public static int longestSlideDown(int[][] pyramid) {
+        int maxIndex = 0;
+        int sum = 0;
+        for (int i = 0; i < pyramid.length; i ++) {
+            if (i == 0) {
+                sum += pyramid[i][maxIndex];
+            }else {
+                int result = pyramid[i][maxIndex] > pyramid[i][maxIndex + 1]?pyramid[i][maxIndex]:pyramid[i][++maxIndex];
+                sum += result;
+            }
+        }
+        return sum;
+    }
+
     /**
      * test
      */
@@ -260,11 +496,7 @@ public class CodeWar {
     public void test() {
 //        Arrays.stream((1456 + "").split("")).forEach(System.out::println);
 //        assertEquals(4, Arrays.stream((1456 + "").split("")).count());
-        int[] A = {1, 2, 3};
-        String[] B = {"1", "2", "3"};
-        Arrays.asList(A).forEach(System.out::println);
-        Arrays.asList(B).forEach(System.out::println);
-        Arrays.stream(A).boxed().forEach(System.out::println);
-        System.out.println(File.separator);
+        String input = "the-Stealth-Warrior";
+        System.out.println(input.split("_|-")[0]);
     }
 }
