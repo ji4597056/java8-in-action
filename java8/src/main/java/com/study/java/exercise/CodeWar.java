@@ -3,9 +3,7 @@ package com.study.java.exercise;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigInteger;
-import java.net.PortUnreachableException;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

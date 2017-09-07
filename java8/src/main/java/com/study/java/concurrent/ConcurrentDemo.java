@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.Test;
 
+import static java.lang.System.*;
+
 /**
  * @author Jeffrey
  * @since 2017/03/23 14:01
@@ -26,14 +28,14 @@ public class ConcurrentDemo {
 
     @Test
     public void test() {
-        System.out.println(number.incrementAndGet());
-        System.out.println(number.updateAndGet(n -> Math.max(n, 1)));
-        System.out.println(number.accumulateAndGet(100, Math::max));
+        out.println(number.incrementAndGet());
+        out.println(number.updateAndGet(n -> Math.max(n, 1)));
+        out.println(number.accumulateAndGet(100, Math::max));
         adder.add(100L);
         adder.increment();
-        System.out.println(adder.intValue());
+        out.println(adder.intValue());
         accumulator.accumulate(100L);
-        System.out.println(accumulator.longValue());
+        out.println(accumulator.longValue());
     }
 
     @Test
@@ -45,27 +47,27 @@ public class ConcurrentDemo {
             oldValue = map.get(key);
             newValue = (oldValue == null) ? 1 : (oldValue + 1);
         } while (!map.replace(key, oldValue, newValue));
-        System.out.println(map.get(key));
+        out.println(map.get(key));
     }
 
     @Test
     public void test2() {
-        System.out.println(adderMap.putIfAbsent("key", new LongAdder()));
+        out.println(adderMap.putIfAbsent("key", new LongAdder()));
         adderMap.putIfAbsent("key", new LongAdder()).increment();
-        System.out.println(adderMap.putIfAbsent("key", new LongAdder()));
-        System.out.println(adderMap.putIfAbsent("key", new LongAdder()));
-        System.out.println(adderMap.putIfAbsent("key", new LongAdder()));
-        adderMap.forEach((s, longAdder) -> System.out.println(s + "," + longAdder.longValue()));
-        System.out.println(adderMap.searchKeys(Long.MAX_VALUE, String::hashCode));
+        out.println(adderMap.putIfAbsent("key", new LongAdder()));
+        out.println(adderMap.putIfAbsent("key", new LongAdder()));
+        out.println(adderMap.putIfAbsent("key", new LongAdder()));
+        adderMap.forEach((s, longAdder) -> out.println(s + "," + longAdder.longValue()));
+        out.println(adderMap.searchKeys(Long.MAX_VALUE, String::hashCode));
         adderMap.putIfAbsent("key1", new LongAdder());
-        System.out.println("====================");
-        adderMap.forEach((s, longAdder) -> System.out.println(s + "," + longAdder.longValue()));
+        out.println("====================");
+        adderMap.forEach((s, longAdder) -> out.println(s + "," + longAdder.longValue()));
     }
 
     @Test
     public void test3() {
         adderMap.compute("key", (s, longAdder) -> longAdder == null ? new LongAdder() : longAdder);
-        adderMap.forEach((s, longAdder) -> System.out.println(s + "," + longAdder.longValue()));
+        adderMap.forEach((s, longAdder) -> out.println(s + "," + longAdder.longValue()));
     }
 
     @Test
