@@ -1,11 +1,9 @@
 package com.study.java.socket;
 
-import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import org.eclipse.jetty.server.Server;
 import org.junit.Test;
 
 /**

@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 import org.junit.Test;
 import scala.concurrent.Await;
-import scala.concurrent.Awaitable;
 import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
 

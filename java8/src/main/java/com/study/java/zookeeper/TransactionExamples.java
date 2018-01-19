@@ -1,6 +1,5 @@
 package com.study.java.zookeeper;
 
-import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
 import java.util.Collection;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.api.transaction.CuratorOp;

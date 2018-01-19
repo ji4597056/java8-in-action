@@ -1,5 +1,7 @@
 package com.study.java.concurrent;
 
+import static java.lang.System.out;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.LongAccumulator;
@@ -7,8 +9,6 @@ import java.util.concurrent.atomic.LongAdder;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.Test;
-
-import static java.lang.System.*;
 
 /**
  * @author Jeffrey

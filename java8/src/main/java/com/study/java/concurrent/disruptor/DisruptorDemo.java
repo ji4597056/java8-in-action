@@ -1,6 +1,5 @@
 package com.study.java.concurrent.disruptor;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 /**

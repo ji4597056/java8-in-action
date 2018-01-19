@@ -4,9 +4,11 @@ import static java.util.stream.Collectors.toList;
 
 import com.alibaba.fastjson.JSON;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -108,6 +110,15 @@ public class StringDemo {
     public void test7() {
         Tester tester = new Tester();
         tester.print();
+    }
+
+    @Test
+    public void test8() {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, -29);
+        System.out.println(c.get(Calendar.DATE));
+        List<String> list = new ArrayList<>();
+        list.stream().forEach(System.out::println);
     }
 
     class Tester {

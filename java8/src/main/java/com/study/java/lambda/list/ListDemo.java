@@ -6,13 +6,13 @@ import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.summarizingInt;
 import static java.util.stream.Collectors.toList;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.TreeSet;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.Assert;
@@ -64,7 +64,7 @@ public class ListDemo {
 
         // 分类(2类,true,false)
         list.stream()
-            .collect(Collectors.partitioningBy(o -> o instanceof Integer ? true : false))
+            .collect(Collectors.partitioningBy(o -> o instanceof Integer))
             .forEach((key, value) -> System.out.println("key:" + key + ",value:" + value));
     }
 
@@ -110,15 +110,45 @@ public class ListDemo {
 
     @Test
     public void test6() {
-        asList(asList("a", asList("b", asList("c", "d")), "e")).stream()
-            .flatMap(o -> o instanceof List ? o.stream() : Stream.of(o))
+        Stream.of(asList("a", asList("b", asList("c", "d")), "e"))
+            .flatMap(o -> o != null ? o.stream() : Stream.of(o))
             .forEach(System.out::println);
     }
 
     @Test
     public void test7() {
-        asList(asList("a", "b"), asList("c", "d")).stream()
-            .flatMap(o -> o instanceof List ? o.stream() : Stream.of(o))
+        Stream.of(asList("a", "b"), asList("c", "d"))
+            .flatMap(o -> o != null ? o.stream() : Stream.of(o))
             .forEach(System.out::println);
+    }
+
+    @Test
+    public void test8() {
+        List<Object> list = asList(1, 2, 3, 4, 5, 6, 1, 2, 3);
+        list.stream().map(num -> (Integer) num).map(Integer::intValue).forEach(System.out::println);
+    }
+
+    @Test
+    public void test9() {
+        List<Integer> list = asList(1, 2, 3, 4, 5, 6, 1, 2, 3);
+        System.out.println(
+            list.stream().collect(
+                Collectors.groupingBy(Integer::intValue, Collectors
+                    .collectingAndThen(Collectors.reducing(this::fun2),
+                        Optional::get))));
+    }
+
+    private BinaryOperator<Integer> fun1() {
+        return (i1, i2) -> i1 > i2 ? i1 : i2;
+    }
+
+    private Integer fun2(Integer i1, Integer i2) {
+        return i1 > i2 ? i1 : i2;
+    }
+
+    @Test
+    public void test10() {
+        String str = "123";
+        str.chars().forEach(System.out::println);
     }
 }

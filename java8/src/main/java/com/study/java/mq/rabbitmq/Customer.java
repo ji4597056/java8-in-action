@@ -1,6 +1,5 @@
 package com.study.java.mq.rabbitmq;
 
-import com.oracle.webservices.internal.api.message.BasePropertySet;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;

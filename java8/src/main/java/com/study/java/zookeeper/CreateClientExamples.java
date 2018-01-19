@@ -1,8 +1,6 @@
 package com.study.java.zookeeper;
 
-import java.util.Collections;
 import java.util.logging.Logger;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;

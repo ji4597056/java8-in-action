@@ -1,12 +1,10 @@
 package com.study.java.lambda.list;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;

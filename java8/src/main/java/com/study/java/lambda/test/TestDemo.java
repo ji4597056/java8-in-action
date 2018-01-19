@@ -1,6 +1,5 @@
 package com.study.java.lambda.test;
 
-import java.lang.annotation.Target;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;

@@ -2,7 +2,6 @@ package com.study.java.concurrent.akka;
 
 import co.paralleluniverse.fibers.FiberUtil;
 import co.paralleluniverse.fibers.Suspendable;
-import com.sun.xml.internal.ws.api.pipe.Fiber;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;

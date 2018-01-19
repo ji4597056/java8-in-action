@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+Class-Path: guava-20.0.jar spring-core-4.3.9.RELEASE.jar javax.servlet
+ -api-3.1.0.jar flowable-engine-common-api-6.1.0.jar config-1.3.1.jar 
+ kryo-serializers-0.42.jar commons-logging-1.2.jar flowable-image-gene
+ rator-6.1.0.jar flowable-form-model-6.1.0.jar curator-x-discovery-4.0
+ .0.jar flowable-content-api-6.1.0.jar jukito-1.5.jar junit-4.12.jar f
+ lowable-idm-api-6.1.0.jar java-uuid-generator-3.1.3.jar scala-library
+ -2.12.2.jar netty-all-4.1.11.Final.jar jetty-io-9.4.6.v20170531.jar f
+ lowable-idm-engine-6.1.0.jar aopalliance-1.0.jar flowable-form-api-6.
+ 1.0.jar akka-actor_2.12-2.5.4.jar flowable-dmn-model-6.1.0.jar slf4j-
+ log4j12-1.6.1.jar activation-1.1.1.jar ehcache-core-2.6.11.jar jcl-ov
+ er-slf4j-1.7.6.jar commons-codec-1.10.jar curator-client-4.0.0.jar je
+ tty-util-9.4.6.v20170531.jar jline-0.9.94.jar javassist-3.18.1-GA.jar
+  rxjava-2.1.0.jar commons-lang3-3.3.2.jar akka-testkit_2.12-2.5.4.jar
+  jackson-core-2.7.5.jar hamcrest-core-1.3.jar joda-time-2.6.jar jacks
+ on-annotations-2.7.0.jar guice-4.0.jar javax.inject-1.jar logback-cla
+ ssic-1.2.1.jar jackson-core-asl-1.9.13.jar h2-1.3.176.jar commons-ema
+ il-1.4.jar log4j-1.2.16.jar mockito-core-2.5.7.jar HdrHistogram-2.1.9
+ .jar mybatis-3.4.1.jar scala-java8-compat_2.12-0.8.0.jar objenesis-2.
+ 1.jar disruptor-3.3.6.jar flowable-bpmn-model-6.1.0.jar hamcrest-libr
+ ary-1.3.jar guice-assistedinject-4.0.jar curator-recipes-4.0.0.jar cu
+ rator-test-2.12.0.jar jackson-databind-2.7.5.jar jetty-http-9.4.6.v20
+ 170531.jar netty-3.10.5.Final.jar jackson-mapper-asl-1.9.13.jar flowa
+ ble-process-validation-6.1.0.jar jetty-server-9.4.6.v20170531.jar cur
+ ator-x-async-4.0.0.jar kryo-4.0.0.jar awaitility-1.7.0.jar curator-fr
+ amework-4.0.0.jar reactive-streams-1.0.0.jar flowable-dmn-api-6.1.0.j
+ ar amqp-client-4.1.0.jar quasar-core-0.7.9-jdk8.jar flowable-engine-6
+ .1.0.jar byte-buddy-1.6.2.jar minlog-1.3.0.jar LatencyUtils-2.0.3.jar
+  spring-beans-4.3.9.RELEASE.jar byte-buddy-agent-1.6.2.jar slf4j-api-
+ 1.7.24.jar logback-core-1.2.1.jar javax.mail-1.5.2.jar fastjson-1.2.3
+ 4.jar metrics-core-3.2.3.jar reflectasm-1.11.3.jar flowable-bpmn-conv
+ erter-6.1.0.jar zookeeper-3.4.10.jar cglib-nodep-3.1.jar flowable-eng
+ ine-common-6.1.0.jar
+Main-Class: com.study.java.zookeeper.ZkTest
+
