@@ -1,4 +1,39 @@
+### Gradle ###
+.gradle
+build/
+target/
+out/
+/build/
+/targrt/
+/out/
+!gradle/wrapper/gradle-wrapper.jar
+#gradlew
+#gradlew.bat
+#gradle/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
 .idea
+*.iws
 *.iml
-java8/target
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### sonar ###
 .scannerwork
+
+### other ###
+META-INF
