@@ -1,5 +1,0 @@
-projectKey=java8-in-action
-serverUrl=http://localhost:9000
-dashboardUrl=http://localhost:9000/dashboard/index/java8-in-action
-ceTaskId=AVuALp2fdGkk9DQ5Ilt5
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AVuALp2fdGkk9DQ5Ilt5
