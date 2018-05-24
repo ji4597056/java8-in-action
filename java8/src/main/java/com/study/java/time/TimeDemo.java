@@ -7,8 +7,11 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import org.junit.Rule;
@@ -64,5 +67,15 @@ public class TimeDemo {
         System.out.println(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME).toString());
         System.out
             .println(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).toString());
+    }
+
+    @Test
+    public void test3() {
+        LocalDateTime t1 = LocalDateTime.of(LocalDate.of(2018, 4, 17), LocalTime.now());
+        LocalDateTime t2 = LocalDateTime.of(LocalDate.of(2018, 4, 18), LocalTime.now());
+        LocalDateTime t3 = LocalDateTime.of(LocalDate.of(2018, 4, 19), LocalTime.now());
+        Duration duration = Duration.between(t1, t2);
+        Period period = Period.ofDays(1);
+        TemporalAdjusters.previous(DayOfWeek.SATURDAY);
     }
 }

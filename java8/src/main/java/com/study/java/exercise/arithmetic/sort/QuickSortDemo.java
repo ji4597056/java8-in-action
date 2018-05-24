@@ -29,12 +29,12 @@ public class QuickSortDemo {
         int v = array[low];
         while (true) {
             while (array[++i] < v) {
-                if (i == high) {
+                if (i >= j - 1) {
                     break;
                 }
             }
             while (array[--j] > v) {
-                if (j == low) {
+                if (j <= i - 1) {
                     break;
                 }
             }

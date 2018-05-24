@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import sun.plugin.com.event.COMEventHandler;
 
 /**
  * @author Jeffrey
@@ -287,5 +288,92 @@ public class Demo1 {
     }
 
     private static Executor threadPool = Executors.newFixedThreadPool(20);
+
+    @Test
+    public void test14() {
+        long start = System.currentTimeMillis();
+        Obj obj = new Obj();
+        CompletableFuture f1 = CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(500L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(1/0);
+            obj.setK1("k1");
+        }).exceptionally(throwable -> {
+            System.out.println("========1========");
+            return null;
+        });
+        CompletableFuture f2 = CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(1/0);
+            obj.setK2("k2");
+        });
+        CompletableFuture f3 = CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(1500L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            obj.setK3("k3");
+        }).exceptionally(throwable -> {
+            System.out.println("============3=========");
+            return null;
+        });
+        CompletableFuture.allOf(f1,f2,f3).exceptionally(throwable -> {
+            System.out.println(throwable.getMessage());
+            return null;
+        }).join();
+        System.out.println("cost:" + (System.currentTimeMillis() - start));
+        System.out.println(obj);
+    }
+
+    static class Obj {
+
+        private String k1;
+
+        private String k2;
+
+        private String k3;
+
+        public String getK1() {
+            return k1;
+        }
+
+        public void setK1(String k1) {
+            this.k1 = k1;
+        }
+
+        public String getK2() {
+            return k2;
+        }
+
+        public void setK2(String k2) {
+            this.k2 = k2;
+        }
+
+        public String getK3() {
+            return k3;
+        }
+
+        public void setK3(String k3) {
+            this.k3 = k3;
+        }
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("Obj{");
+            sb.append("k1='").append(k1).append('\'');
+            sb.append(", k2='").append(k2).append('\'');
+            sb.append(", k3='").append(k3).append('\'');
+            sb.append('}');
+            return sb.toString();
+        }
+    }
 
 }
